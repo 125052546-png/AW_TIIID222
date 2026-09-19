@@ -12,9 +12,22 @@ echo "ola";
         h1 {
             color: blue;
         }
-        div {
-            background: blue;
+        .titulo2 {
+            color: black;
         }
+        .seccion {
+            padding : 40px;
+            background-color: cyan;
+            margin: 20px;
+            border: 10px dotted black;
+        }
+        .seccion2 {
+            padding: 100px;
+            background-color: yellow;
+            margin: 20px;
+            border: 5px dashed black;
+        }
+
     </style>
 </head>
 <body>
@@ -25,9 +38,16 @@ echo "ola";
     <h5>Hola crayola</h5>
     <h6>Hola crayola</h6>
 
-    <div>
-        
-        <p>Este es un parrafo</p>
+    <div class= "seccion">
+        <h1 class = "titulo2" >Titulo </h1>
+        <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Fuga, tempora commodi itaque sit reprehenderit ea cum vel officia corrupti placeat iure maxime esse necessitatibus totam ipsa ex iste. In, consequatur.</p>
+    </div>
+    
+    <div class = "seccion2"> 
+        <h1 class = "titulo2"> Titulo de ejemplo 2</h1>
+            <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Fuga, tempora commodi itaque sit reprehenderit ea cum vel officia corrupti placeat iure maxime esse necessitatibus totam ipsa ex iste. In, consequatur.</p>
+
+    
     </div>
 
 
