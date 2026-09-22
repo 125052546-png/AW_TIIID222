@@ -22,10 +22,11 @@ echo "ola";
             border: 10px dotted black;
         }
         .seccion2 {
-            padding: 100px;
+            padding- top: 100px;
+            padding- left: 100px;
             background-color: yellow;
             margin: 20px;
-            border: 5px dashed black;
+            border: 5px hidden black;
         }
 
     </style>
