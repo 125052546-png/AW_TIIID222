@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Raster 10x10</title>
+
+    <style>
+        #raster {
+            display: grid;
+            grid-template-columns: repeat(10, 45px);
+            gap: 3px;
+            background: #222;
+            padding: 3px;
+        }
+
+        .contenedor {
+            display: flex;
+            gap: 80px;
+        }
+
+        .celda {
+            width: 45px;
+            height: 45px;
+            display: flex;
+            align-items: flex-start;
+            justify-content: flex-start;
+        }
+
+        .paleta {
+            display: flex;
+            width: 500px;
+        }
+
+        .color-p {
+            flex: 1;
+            height: 22px;
+        }
+    </style>
+</head>
+
+<body>
+
+<div class="contenedor">
+
+    <div>
+        <h1>Raster 10x10</h1>
+
+        Coordenadas de los puntos (x, y) [0-9]
+
+        <br><br>
+
+        x:
+        <input id="x" type="number" min="0" max="9" value="0">
+
+        <br>
+
+        y:
+        <input id="y" type="number" min="0" max="9" value="0">
+
+        <br><br><br><br>
+
+        Valor del punto z
+
+        <br><br>
+
+        <input id="z" type="number" placeholder="Ej: 42.5">
+
+        <br><br>
+
+        <button onclick="agregarPunto()">
+            Agregar punto x,y,z
+        </button>
+
+        <br><br>
+
+        <button onclick="randomizar()">
+            Randomizar todo el raster
+        </button>
+
+        <p>
+            z min: <b id="zmin">-</b>
+            <br><br>
+            z máx: <b id="zmax">-</b>
+        </p>
+
+        Paleta (Colores de azul → rojo)
+
+        <br>
+
+        <div class="paleta" id="paleta"></div>
+    </div>
+
+    <div id="raster"></div>
+
+</div>
+
+<script>
+
+let colores = [
+    "#0d26ff",
+    "#0084ff",
+    "#00c8ff",
+    "#00e676",
+    "#7fff00",
+    "#d4ff00",
+    "#ffeb00",
+    "#ffaa00",
+    "#ff5500",
+    "#ff0000"
+];
+
+let datos = [];
+
+for (let y = 0; y < 10; y++) {
+
+    datos[y] = [];
+
+    for (let x = 0; x < 10; x++) {
+        datos[y][x] = null;
+    }
+}
+
+let raster = document.getElementById("raster");
+let paleta = document.getElementById("paleta");
+
+for (let i = 0; i < colores.length; i++) {
+
+    let div = document.createElement("div");
+
+    div.className = "color-p";
+    div.style.background = colores[i];
+
+    paleta.appendChild(div);
+}
+
+function dibujar() {
+
+    raster.innerHTML = "";
+
+    let minimo = 0;
+    let maximo = 0;
+    let primero = true;
+
+    for (let y = 0; y < 10; y++) {
+
+        for (let x = 0; x < 10; x++) {
+
+            let valor = datos[y][x];
+
+            if (valor != null) {
+
+                if (primero) {
+                    minimo = valor;
+                    maximo = valor;
+                    primero = false;
+                }
+
+                if (valor < minimo) {
+                    minimo = valor;
+                }
+
+                if (valor > maximo) {
+                    maximo = valor;
+                }
+            }
+        }
+    }
+
+    if (primero) {
+        document.getElementById("zmin").textContent = "-";
+        document.getElementById("zmax").textContent = "-";
+    } else {
+        document.getElementById("zmin").textContent = minimo.toFixed(2);
+        document.getElementById("zmax").textContent = maximo.toFixed(2);
+    }
+
+    for (let y = 9; y >= 0; y--) {
+
+        for (let x = 0; x < 10; x++) {
+
+            let z = datos[y][x];
+
+            let celda = document.createElement("div");
+
+            celda.className = "celda";
+
+            if (z != null) {
+
+                let indice = 0;
+
+                if (maximo != minimo) {
+
+                    indice = Math.floor(
+                        ((z - minimo) / (maximo - minimo)) * 9
+                    );
+                }
+
+                celda.style.background = colores[indice];
+
+                celda.textContent = z.toFixed(0);
+
+            } else {
+
+                celda.style.background = "#e0e0e0";
+            }
+
+            raster.appendChild(celda);
+        }
+    }
+}
+
+function agregarPunto() {
+
+    let x = Number(document.getElementById("x").value);
+    let y = Number(document.getElementById("y").value);
+
+    let z = document.getElementById("z").value;
+
+    if (z == "") {
+
+        z = Math.random() * 200 - 100;
+
+    } else {
+
+        z = Number(z);
+    }
+
+    datos[y][x] = z;
+
+    dibujar();
+}
+
+function randomizar() {
+
+    for (let y = 0; y < 10; y++) {
+
+        for (let x = 0; x < 10; x++) {
+
+            datos[y][x] = Math.random() * 200 - 100;
+        }
+    }
+
+    dibujar();
+}
+
+randomizar();
+
+</script>
+
+</body>
+</html>
